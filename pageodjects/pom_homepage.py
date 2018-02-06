@@ -20,6 +20,7 @@ class PageHome(BasePage):
     _ele_lgn = 'id'  # id
     _ele_pswd = 'pswd'  # id
     _ele_sbt = 'btnsubmit'  # id
+    _err_msg = '.msg'  # css
 
     # waits for a chat-bot initialization
     def wait_for_page(self):
@@ -79,7 +80,7 @@ class PageHome(BasePage):
             for ele in ele_options:
                 option = ele.text
                 if option == 'Sign in':
-                    print('Sing-in option found and clicking it')
+                    print('Sign-in option found and clicking it')
                     # it will click on the sign in option and hamburger menu will close
                     ele.click()
                     break
@@ -87,7 +88,7 @@ class PageHome(BasePage):
             print('Sign-in option not found', e)
 
         # waits for the sign-in options/page to load
-        WebDriverWait(self.driver, config.driver_wait).until(ec.presence_of_element_located(By.ID("id")))
+        WebDriverWait(self.driver, config.driver_wait).until(ec.presence_of_element_located(By.ID(self._ele_lgn)))
         ele_lgn = self.driver.find_element_by_id(self._ele_lgn)
         ele_pswd = self.driver.find_element_by_id(self._ele_pswd)
         ele_sbt = self.driver.find_element_by_id(self._ele_sbt)
@@ -97,15 +98,15 @@ class PageHome(BasePage):
         ele_pswd.send_keys(password)
         ele_sbt.submit()
 
-        # user will land to dashbaord upon successful login, soft assert to check browser title
+        # user will land on dashboard upon successful login, soft assert to check browser title
 
         if self.driver.title == 'User Dashboard':  # assumed dashboard title
             print('Test pass')
         else:
             # wait for message to be visible to user
             WebDriverWait(self.driver, config.driver_wait).until(
-                ec.visibility_of(self.driver.find_element_by_css_selector('.msg')))
-            ele_login = self.driver.find_element_by_css_selector('.msg')
+                ec.visibility_of(self.driver.find_element_by_css_selector(self._err_msg)))
+            ele_login = self.driver.find_element_by_css_selector(self._err_msg)
             err_login = ele_login.text
             # comparing if the actual and expected messages are same
             if err_msg == err_login:
