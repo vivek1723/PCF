@@ -6,6 +6,6 @@ How to run it:
 2.	Check-in the code from the GIT repo https://github.com/vivek1723/PCF.git using any Python compatible IDE like PyCharm.
 Or 
 Alternatively you can download the PCF.zip from my Dropbox and extract it to check code snippet.
-3.	Run pip freeze -r requirements.txt from Python console or terminal to download dependencies.
+3.	Run pip install -r requirements.txt from Python console or terminal to download dependencies.
 4.	Use python py.test test/test.homepage.py to run the test case.
 
